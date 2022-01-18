@@ -1,0 +1,8 @@
+type: module
+name: 'Search API ElasticSearch Test'
+description: 'Search API ElasticSearch test module'
+package: 'Search'
+dependencies:
+  - drupal:search_api_test
+core_version_requirement: ^8 || ^9
+hidden: true

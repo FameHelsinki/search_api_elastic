@@ -1,0 +1,56 @@
+services:
+
+  plugin.manager.search_api_elastic.connector:
+    class: Drupal\search_api_elastic\Connector\ConnectorPluginManager
+    parent: default_plugin_manager
+
+  logger.channel.search_api_elastic:
+    parent: logger.channel_base
+    arguments: [ 'search_api_elastic' ]
+
+  search_api_elastic.index_param_builder:
+    class: Drupal\search_api_elastic\SearchAPI\IndexParamBuilder
+    arguments: [ '@search_api.fields_helper', '@event_dispatcher' ]
+  search_api_elastic.query_sort_builder:
+    class: Drupal\search_api_elastic\SearchAPI\Query\QuerySortBuilder
+    arguments: [ '@logger.channel.search_api_elastic' ]
+  search_api_elastic.query_filter_builder:
+    class: Drupal\search_api_elastic\SearchAPI\Query\FilterBuilder
+    arguments: [ '@logger.channel.search_api_elastic' ]
+  search_api_elastic.search_param_builder:
+    class: Drupal\search_api_elastic\SearchAPI\Query\SearchParamBuilder
+  search_api_elastic.more_like_this_param_builder:
+    class: Drupal\search_api_elastic\SearchAPI\MoreLikeThisParamBuilder
+  search_api_elastic.facet_builder:
+    class: Drupal\search_api_elastic\SearchAPI\Query\FacetParamBuilder
+    arguments: [ '@logger.channel.search_api_elastic' ]
+  search_api_elastic.query_param_builder:
+    class: Drupal\search_api_elastic\SearchAPI\Query\QueryParamBuilder
+    arguments:
+      - '@search_api.fields_helper'
+      - '@search_api_elastic.query_sort_builder'
+      - '@search_api_elastic.query_filter_builder'
+      - '@search_api_elastic.search_param_builder'
+      - '@search_api_elastic.more_like_this_param_builder'
+      - '@search_api_elastic.facet_builder'
+      - '@event_dispatcher'
+      - '@logger.channel.search_api_elastic'
+  search_api_elastic.facet_result_parser:
+    class: Drupal\search_api_elastic\SearchAPI\Query\FacetResultParser
+    arguments: [ '@logger.channel.search_api_elastic' ]
+  search_api_elastic.query_result_parser:
+    class: Drupal\search_api_elastic\SearchAPI\Query\QueryResultParser
+    arguments: [ '@search_api.fields_helper', '@search_api_elastic.facet_result_parser' ]
+  search_api_elastic.field_mapper:
+    class: Drupal\search_api_elastic\SearchAPI\FieldMapper
+    arguments: [ '@search_api.fields_helper', '@event_dispatcher' ]
+
+  search_api_elastic.backend_client_factory:
+    class: Drupal\search_api_elastic\SearchAPI\BackendClientFactory
+    arguments:
+      - '@search_api_elastic.query_param_builder'
+      - '@search_api_elastic.query_result_parser'
+      - '@search_api_elastic.index_param_builder'
+      - '@search_api.fields_helper'
+      - '@search_api_elastic.field_mapper'
+      - '@logger.channel.search_api_elastic'

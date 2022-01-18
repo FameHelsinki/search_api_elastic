@@ -1,0 +1,12 @@
+{
+    "name": "drupal/search_api_elastic",
+    "description": "Provides an ElasticSearch backend for Search API.",
+    "type": "drupal-module",
+    "license": "GPL-2.0-or-later",
+    "require": {
+        "php": "^8.0",
+        "makinacorpus/php-lucene": "^1.0",
+        "elasticsearch/elasticsearch": "^7.1.1",
+        "ruflin/elastica": "^7.1"
+    }
+}

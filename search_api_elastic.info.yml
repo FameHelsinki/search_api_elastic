@@ -1,0 +1,8 @@
+name: Search API Elasticsearch
+description: Provides an ElasticSearch backend for Search API.
+php: 8.0
+core_version_requirement: ^8 || ^9
+package: Search
+type: module
+dependencies:
+  - search_api:search_api
