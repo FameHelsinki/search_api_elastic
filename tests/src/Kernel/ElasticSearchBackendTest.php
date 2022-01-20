@@ -110,9 +110,11 @@ class ElasticSearchBackendTest extends BackendTestBase {
     // @codingStandardsIgnoreStart
 
     $results = $this->buildSearch('test')
-      ->range(1, 2)
-      ->execute();
+    ->range(1, 2)
+    ->execute();
+
     $this->assertEquals(4, $results->getResultCount(), 'Search for »test« returned correct number of results.');
+
     $this->assertEquals($this->getItemIds([
       2,
       3,
@@ -126,6 +128,7 @@ class ElasticSearchBackendTest extends BackendTestBase {
     $this->assertEquals('entity:entity_test_mulrev_changed', $results->getResultItems()[$id]->getDatasourceId());
 
     $results = $this->buildSearch('test foo')->execute();
+
     $this->assertResults([1, 2, 4], $results, 'Search for »test foo«');
 
     $results = $this->buildSearch('foo', ['type,item'])->execute();
@@ -147,7 +150,8 @@ class ElasticSearchBackendTest extends BackendTestBase {
       ],
     ];
     $results = $this->buildSearch($keys)->execute();
-    //    $this->assertResults([4], $results, 'Complex search 1');
+
+    // $this->assertResults([4], $results, 'Complex search 1');
     $query = $this->buildSearch();
     $conditions = $query->createConditionGroup('OR');
     $conditions->addCondition('name', 'bar');
